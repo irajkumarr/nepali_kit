@@ -1,0 +1,7 @@
+# Directories to exclude from pub.dev package archive
+.dart_tool/
+.idea/
+.vscode/
+build/
+doc/api/
+*.log

@@ -1,0 +1,28 @@
+name: nepali_kit
+description: A comprehensive, production-quality all-in-one Nepali utilities toolkit for Dart and Flutter. Includes Bikram Sambat (BS) calendar, BS/AD conversion, Nepali numbers, currency, words, fiscal year, holidays, and Material 3 UI widgets.
+version: 1.0.0
+homepage: https://github.com/nepali-kit/nepali_kit
+repository: https://github.com/nepali-kit/nepali_kit
+issue_tracker: https://github.com/nepali-kit/nepali_kit/issues
+
+topics:
+  - calendar
+  - nepali
+  - bikram-sambat
+  - date-picker
+  - localization
+
+environment:
+  sdk: '^3.3.0'
+  flutter: '>=3.19.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  meta: ^1.11.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  test: ^1.25.0

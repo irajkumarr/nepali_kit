@@ -1,0 +1,11 @@
+# Git ignore rules for nepali_kit
+.dart_tool/
+.idea/
+.vscode/
+build/
+doc/api/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+pubspec.lock
+*.log
