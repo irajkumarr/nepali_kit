@@ -166,7 +166,15 @@ class TransliterationEngine {
       current = _applyRules(current + word[i]);
     }
     // Remove internal zero-width space markers used during virama cancellation
-    return current.replaceAll('\u200b', '');
+    String result = current.replaceAll('\u200b', '');
+
+    // Common natural Romanized Nepali typing corrections:
+    // When words end with 'a' (like chha -> छ् -> छ)
+    if (word.endsWith('a') && result.endsWith('\u094d')) {
+      result = result.substring(0, result.length - 1);
+    }
+
+    return result;
   }
 
   /// Applies the phonetic mapping rules.
@@ -192,7 +200,7 @@ class TransliterationEngine {
 
     // 2. Vowel Signs (Matras) following Halant
     text = text.replaceAll(
-        '\u094d\u0905', '\u200b'); // Halant + a -> full consonant
+        '\u094d\u0905', '\u200b'); // Halant + a -> full consonant (cancel halant)
     text = text.replaceAll('\u094d\u0906', '\u093e'); // Halant + A / aa -> ा
     text = text.replaceAll('\u200b\u0905', '\u093e'); // Consonant + a + a -> ा
     text = text.replaceAll('\u094d\u0907', '\u093f'); // Halant + i -> ि
@@ -267,9 +275,11 @@ class TransliterationEngine {
         text.replaceAll('\u0917\u094d\u0939\u094d', '\u0918\u094d'); // gh -> घ्
     text =
         text.replaceAll('\u0928\u094d\u0917\u094d', '\u0919\u094d'); // ng -> ङ्
-    text =
-        text.replaceAll('\u091a\u094d\u0939\u094d', '\u091b\u094d'); // ch -> छ्
-    text = text.replaceAll('\u091b\u094d\u0939', '\u091b\u094d'); // chh -> छ्
+    // In Romanized Nepali:
+    // 'ch' or 'c' maps to 'च्' (e.g. cha -> च, chya -> च्या)
+    // 'chh' maps to 'छ्' (e.g. chha -> छ, chhoro -> छोरो)
+    text = text.replaceAll('\u091a\u094d\u0939\u094d', '\u091b\u094d'); // chh -> छ्
+    text = text.replaceAll('\u091b\u094d\u0939', '\u091b\u094d'); // chhh -> छ्
     text =
         text.replaceAll('\u091c\u094d\u0939\u094d', '\u091d\u094d'); // jh -> झ्
     text = text.replaceAll('\u092f\u094d\u0928', '\u091e\u094d'); // yn -> ञ्
@@ -379,3 +389,4 @@ class TransliterationEngine {
     return text;
   }
 }
+

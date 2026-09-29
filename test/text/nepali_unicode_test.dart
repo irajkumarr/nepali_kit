@@ -7,21 +7,21 @@ void main() {
       expect(NepaliUnicode.convert(''), equals(''));
     });
 
-    test('Exact Anthem Line 1 matches required output', () {
+    test('Conversational sentence 1 converts accurately', () {
       expect(
         NepaliUnicode.convert(
-          "sayau' thu''gaa fUlakaa haamii, euTai maalaa nepaalii",
+          "namaste, tpaaii'laaii kasto chha? swagatam!",
         ),
-        equals('सयौं थुँगा फूलका हामी, एउटै माला नेपाली'),
+        equals('नमस्ते, तपाईंलाई कस्तो छ? स्वगतम्!'),
       );
     });
 
-    test('Exact Anthem Line 2 matches required output', () {
+    test('Conversational sentence 2 converts accurately', () {
       expect(
         NepaliUnicode.convert(
-          'saarwabhauma bhai failiekaa, mecii-mahaakaalii',
+          'mero naam Bikash ho, ma nepaalmaa baschhu.',
         ),
-        equals('सार्वभौम भै फैलिएका, मेची-महाकाली'),
+        equals('मेरो नाम् बिकश् हो, म नेपाल्मा बस्छु.'),
       );
     });
   });

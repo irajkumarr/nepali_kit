@@ -1914,7 +1914,7 @@ class TextUnicodeScreen extends StatefulWidget {
 
 class _TextUnicodeScreenState extends State<TextUnicodeScreen> {
   final TextEditingController _romanizedController = TextEditingController(
-    text: "sayau' thu''gaa fUlakaa haamii, euTai maalaa nepaalii",
+    text: "namaste, tpaaii'laaii kasto chha? swagatam!",
   );
   final TextEditingController _digitController =
       TextEditingController(text: 'मंसिर २०८२ मा ५५ जना मानिस आए।');
@@ -2001,26 +2001,28 @@ class _TextUnicodeScreenState extends State<TextUnicodeScreen> {
                     child: Row(
                       children: [
                         ActionChip(
-                          avatar: const Icon(Icons.music_note, size: 16),
-                          label: Text(isNepali ? 'गान १' : 'Anthem 1'),
-                          onPressed: () => _loadExample(
-                            "sayau' thu''gaa fUlakaa haamii, euTai maalaa nepaalii",
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        ActionChip(
-                          avatar: const Icon(Icons.flag, size: 16),
-                          label: Text(isNepali ? 'गान २' : 'Anthem 2'),
-                          onPressed: () => _loadExample(
-                            "saarwabhauma bhai failiekaa, mecii-mahaakaalii",
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        ActionChip(
                           avatar: const Icon(Icons.handshake, size: 16),
                           label: Text(isNepali ? 'अभिवादन' : 'Greetings'),
                           onPressed: () => _loadExample(
                             "namaste, tpaaii'laaii kasto chha? swagatam!",
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ActionChip(
+                          avatar: const Icon(Icons.person, size: 16),
+                          label: Text(isNepali ? 'परिचय' : 'Introduction'),
+                          onPressed: () => _loadExample(
+                            "mero naam Bikash ho, ma nepaalmaa baschhu.",
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ActionChip(
+                          avatar:
+                              const Icon(Icons.chat_bubble_outline, size: 16),
+                          label: Text(
+                              isNepali ? 'दैनिक कुराकानी' : 'Conversation'),
+                          onPressed: () => _loadExample(
+                            "aaja ko mausam dherai raamro chha.",
                           ),
                         ),
                       ],

@@ -7,9 +7,9 @@ import 'transliteration_engine.dart';
 /// ### Examples
 /// ```dart
 /// final nepali = NepaliUnicode.convert(
-///   "sayau' thu''gaa fUlakaa haamii, euTai maalaa nepaalii",
+///   "namaste, tpaaii'laaii kasto chha? swagatam!",
 /// );
-/// // Returns: 'सयौं थुँगा फूलका हामी, एउटै माला नेपाली'
+/// // Returns: 'नमस्ते, तपाईंलाई कस्तो छ? स्वगतम्!'
 /// ```
 ///
 /// ### Live (Type-as-you-write) Mode

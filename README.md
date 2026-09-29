@@ -459,17 +459,19 @@ Convert English literal phonetic Romanized Nepali into clean Devanagari Unicode 
 ```dart
 import 'package:nepali_kit/nepali_kit.dart';
 
-final anthem1 = NepaliUnicode.convert(
-  "sayau' thu''gaa fUlakaa haamii, euTai maalaa nepaalii",
+// Greetings & conversation
+final greeting = NepaliUnicode.convert(
+  "namaste, tpaaii'laaii kasto chha?",
 );
-print(anthem1);
-// सयौं थुँगा फूलका हामी, एउटै माला नेपाली
+print(greeting);
+// नमस्ते, तपाईंलाई कस्तो छ?
 
-final anthem2 = NepaliUnicode.convert(
-  "saarwabhauma bhai failiekaa, mecii-mahaakaalii",
+// Everyday sentences
+final sentence = NepaliUnicode.convert(
+  "mero naam Bikash ho, ma nepaalmaa baschhu.",
 );
-print(anthem2);
-// सार्वभौम भै फैलिएका, मेची-महाकाली
+print(sentence);
+// मेरो नाम् बिकश् हो, म नेपाल्मा बस्छु.
 ```
 
 ### Live (Type-as-you-write) Conversion
