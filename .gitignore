@@ -4,6 +4,7 @@
 .vscode/
 build/
 doc/api/
+doc/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
