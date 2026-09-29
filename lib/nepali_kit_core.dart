@@ -42,3 +42,6 @@ export 'src/relative_time/nepali_moment.dart';
 
 // Calendar events & collections
 export 'src/events/calendar_event.dart';
+
+// Text & Unicode transliteration
+export 'src/text/nepali_unicode.dart';

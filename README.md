@@ -17,6 +17,7 @@ A production-quality, all-in-one Nepali calendar, localization, and UI toolkit f
 ## Why this package?
 
 In the Dart & Flutter ecosystem, building a Nepali app typically requires stitching together 4 to 6 disparate packages:
+
 - One package for basic BS date calculations,
 - Another for number/Devanagari formatting,
 - Another for fiscal year math,
@@ -24,6 +25,7 @@ In the Dart & Flutter ecosystem, building a Nepali app typically requires stitch
 - And yet another for Flutter calendar UI or date pickers.
 
 This fragmentation leads to:
+
 1. **Conflicting types** (e.g. incompatible `NepaliDateTime` models across libraries),
 2. **Inconsistent calendar tables** (subtle discrepancies between day counts across years),
 3. **Timezone bugs** (hidden UTC/local conversion side-effects altering days),
@@ -56,10 +58,11 @@ Add `nepali_kit` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  nepali_kit: ^0.1.0
+  nepali_kit: ^1.0.0
 ```
 
 ### Pure Dart (Backend / CLI / Scripts)
+
 For servers (Dart Frog, Serverpod), scripts, or CLI apps with zero Flutter dependencies:
 
 ```dart
@@ -67,6 +70,7 @@ import 'package:nepali_kit/nepali_kit_core.dart';
 ```
 
 ### Flutter Applications
+
 For Flutter apps requiring UI widgets, calendar pickers, and themes:
 
 ```dart
@@ -125,6 +129,7 @@ final bsFromExt = DateTime(2024, 9, 29).toNepaliDate();
 ## NepaliDate Examples
 
 ### Construction & Validation
+
 ```dart
 // Valid date
 final date = NepaliDate(2081, 6, 13);
@@ -145,6 +150,7 @@ print(date.endOfMonth); // 2081-06-30
 ```
 
 ### Date Arithmetic
+
 ```dart
 final start = NepaliDate(2081, 3, 32); // Ashadh 32
 
@@ -162,6 +168,7 @@ final daysBetween = after10Days.differenceInDays(start); // 10
 ```
 
 ### Comparisons & Ranges
+
 ```dart
 final d1 = NepaliDate(2081, 1, 1);
 final d2 = NepaliDate(2081, 1, 15);
@@ -199,29 +206,30 @@ print(dual); // "२०८१ आश्विन १३ (2024-09-29)"
 
 ### Supported Pattern Tokens
 
-| Token | Description | Output (English) | Output (Nepali) |
-| :--- | :--- | :--- | :--- |
-| `yyyy` | 4-digit Year | 2081 | २०८१ |
-| `yy` | 2-digit Year | 81 | ८१ |
-| `MMMM` | Full Month Name | Ashwin | आश्विन |
-| `MMM` | Short Month Name | Ashw | आ |
-| `MM` | 2-digit Month | 06 | ०६ |
-| `M` | 1-digit Month | 6 | ६ |
-| `dd` | 2-digit Day | 13 | १३ |
-| `d` | 1-digit Day | 13 | १३ |
-| `EEEE` | Full Weekday | Sunday | आइतबार |
-| `EEE` | Short Weekday | Sun | आइत |
-| `HH` | 24-Hour (00–23) | 15 | १५ |
-| `hh` | 12-Hour (01–12) | 03 | ०३ |
-| `mm` | Minute (00–59) | 30 | ३० |
-| `ss` | Second (00–59) | 45 | ४५ |
-| `a` | AM / PM marker | PM | अपराह्न |
+| Token  | Description      | Output (English) | Output (Nepali) |
+| :----- | :--------------- | :--------------- | :-------------- |
+| `yyyy` | 4-digit Year     | 2081             | २०८१            |
+| `yy`   | 2-digit Year     | 81               | ८१              |
+| `MMMM` | Full Month Name  | Ashwin           | आश्विन          |
+| `MMM`  | Short Month Name | Ashw             | आ               |
+| `MM`   | 2-digit Month    | 06               | ०६              |
+| `M`    | 1-digit Month    | 6                | ६               |
+| `dd`   | 2-digit Day      | 13               | १३              |
+| `d`    | 1-digit Day      | 13               | १३              |
+| `EEEE` | Full Weekday     | Sunday           | आइतबार          |
+| `EEE`  | Short Weekday    | Sun              | आइत             |
+| `HH`   | 24-Hour (00–23)  | 15               | १५              |
+| `hh`   | 12-Hour (01–12)  | 03               | ०३              |
+| `mm`   | Minute (00–59)   | 30               | ३०              |
+| `ss`   | Second (00–59)   | 45               | ४५              |
+| `a`    | AM / PM marker   | PM               | अपराह्न         |
 
 ---
 
 ## Number Examples
 
 ### Grouping and Digits
+
 Format numbers with South Asian grouping (last 3 digits, then groups of 2 digits):
 
 ```dart
@@ -239,6 +247,7 @@ NepaliDigits.toEnglish('२०८१'); // "2081"
 ```
 
 ### Numbers to Words
+
 Convert numbers to spoken words up to Kharba and Arab:
 
 ```dart
@@ -441,6 +450,62 @@ print(collection.eventsForDate(NepaliDate(2081, 7, 15)).length); // 2
 
 ---
 
+## Romanized Nepali → Unicode Transliteration
+
+Convert English literal phonetic Romanized Nepali into clean Devanagari Unicode using `NepaliUnicode`:
+
+### Basic Conversion
+
+```dart
+import 'package:nepali_kit/nepali_kit.dart';
+
+final anthem1 = NepaliUnicode.convert(
+  "sayau' thu''gaa fUlakaa haamii, euTai maalaa nepaalii",
+);
+print(anthem1);
+// सयौं थुँगा फूलका हामी, एउटै माला नेपाली
+
+final anthem2 = NepaliUnicode.convert(
+  "saarwabhauma bhai failiekaa, mecii-mahaakaalii",
+);
+print(anthem2);
+// सार्वभौम भै फैलिएका, मेची-महाकाली
+```
+
+### Live (Type-as-you-write) Conversion
+
+For interactive input fields, set `live: true` to prevent premature character locking while the user continues typing:
+
+```dart
+TextField(
+  onChanged: (text) {
+    final liveNepali = NepaliUnicode.convert(
+      text,
+      live: true,
+    );
+    print(liveNepali);
+  },
+);
+```
+
+As the user types incrementally:
+* `m` → `म्`
+* `ma` → `म`
+* `maa` → `मा`
+* `maala` → `माल`
+* `maalaa` → `माला`
+
+### Notation Reference
+
+* **Vowels:** `a` (अ), `A` / `aa` (आ), `i` (इ), `I` / `ii` (ई), `u` (उ), `U` / `uu` (ऊ), `e` (ए), `E` / `ai` (ऐ), `o` (ओ), `au` (औ)
+* **Special Marks:** `'` (Anusvara `ं`), `''` (Chandrabindu `ँ`), `:` (Visarga `ः`), `|` (Danda `।`), `||` (Double Danda `॥`), `om` / `Om` (`ॐ`)
+* **Consonant aspirated forms:** `kh` (ख्), `gh` (घ्), `ch` (छ्), `jh` (झ्), `th` (थ्), `dh` (ध्), `ph`/`f` (फ्), `bh` (भ्), `sh` (श्)
+* **Retroflex consonants:** `T` (ट्), `Th` (ठ्), `D` (ड्), `Dh` (ढ्), `N` (ण्), `S` (ष्)
+* **Digits:** `0-9` automatically map to `०-९`
+* **Non-Nepali Content Preservation:** URLs (`https://...`), email addresses (`user@domain.com`), and already-Devanagari Unicode characters are detected and preserved without corruption.
+
+---
+
 ## Localization
 
 `nepali_kit` provides first-class support for both English (`Language.english`) and Nepali (`Language.nepali`).
@@ -485,19 +550,19 @@ nepali_kit/
 
 ## Supported Date Range
 
-| Calendar | Minimum Date | Maximum Date |
-| :--- | :--- | :--- |
+| Calendar               | Minimum Date                                           | Maximum Date      |
+| :--------------------- | :----------------------------------------------------- | :---------------- |
 | **Bikram Sambat (BS)** | **2000-01-01 BS** (or 1975-01-01 BS in verified table) | **2099-12-30 BS** |
-| **Gregorian (AD)** | **1918-04-13 AD** | **2043-04-13 AD** |
+| **Gregorian (AD)**     | **1918-04-13 AD**                                      | **2043-04-13 AD** |
 
-- Verified calendar tables guarantee exact month lengths matching official Nepalese *Patro* records across all 125 supported years.
+- Verified calendar tables guarantee exact month lengths matching official Nepalese _Patro_ records across all 125 supported years.
 - Attempting to construct a `NepaliDate` outside this range throws a descriptive [`NepaliDateException`](file:///c:/Users/DELL/Desktop/opensource/nepali_kit/lib/src/core/exceptions.dart).
 
 ---
 
 ## Limitations
 
-- **Astronomical Predictions beyond 2099 BS**: Because the Bikram Sambat calendar is governed by solar-lunar astronomical positions published annually by Nepal's *Panchanga Nirnayak Samiti*, years beyond 2099 BS are not pre-calculated to prevent historical drift.
+- **Astronomical Predictions beyond 2099 BS**: Because the Bikram Sambat calendar is governed by solar-lunar astronomical positions published annually by Nepal's _Panchanga Nirnayak Samiti_, years beyond 2099 BS are not pre-calculated to prevent historical drift.
 - **Tithi Calculations**: Lunar Tithis (such as Ekadashi, Purnima, Amavasya) depend on precise planetary coordinates at specific longitudes and are not included in this calendar engine.
 
 ---
@@ -505,6 +570,7 @@ nepali_kit/
 ## Examples
 
 A comprehensive Flutter example application is included in the `example/` directory demonstrating:
+
 1. Pure BS calendar with day selection,
 2. Dual BS + AD calendar,
 3. Multi-event indicators,

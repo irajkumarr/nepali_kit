@@ -1913,46 +1913,257 @@ class TextUnicodeScreen extends StatefulWidget {
 }
 
 class _TextUnicodeScreenState extends State<TextUnicodeScreen> {
-  final TextEditingController _controller =
+  final TextEditingController _romanizedController = TextEditingController(
+    text: "sayau' thu''gaa fUlakaa haamii, euTai maalaa nepaalii",
+  );
+  final TextEditingController _digitController =
       TextEditingController(text: 'मंसिर २०८२ मा ५५ जना मानिस आए।');
+
+  bool _liveConversion = true;
 
   @override
   void dispose() {
-    _controller.dispose();
+    _romanizedController.dispose();
+    _digitController.dispose();
     super.dispose();
+  }
+
+  void _loadExample(String example) {
+    setState(() {
+      _romanizedController.text = example;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final text = _controller.text;
-    final hasNepaliDigits = NepaliDigits.containsNepaliDigits(text);
-    final toEnglish = NepaliDigits.toEnglish(text);
+    final theme = Theme.of(context);
+    final isNepali = widget.language.isNepali;
+
+    // Romanized transliteration
+    final romanizedInput = _romanizedController.text;
+    final convertedOutput = NepaliUnicode.convert(
+      romanizedInput,
+      live: _liveConversion,
+    );
+
+    // Digit utilities
+    final digitText = _digitController.text;
+    final hasNepaliDigits = NepaliDigits.containsNepaliDigits(digitText);
+    final toEnglish = NepaliDigits.toEnglish(digitText);
     final toNepali = NepaliDigits.toNepali(toEnglish);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.language.isNepali
+        title: Text(isNepali
             ? 'युनिकोड तथा पाठ (Text & Unicode)'
             : 'Text & Unicode Utilities'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          // 1. Romanized to Nepali Unicode Converter Card
           Card(
+            elevation: 2,
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      Icon(Icons.translate, color: theme.colorScheme.primary),
+                      const SizedBox(width: 8),
+                      Text(
+                        isNepali
+                            ? 'रोमनाइज्ड → नेपाली युनिकोड'
+                            : 'Romanized → Nepali Unicode',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
                   Text(
-                    widget.language.isNepali
-                        ? 'पाठ प्रविष्टि (Input String)'
-                        : 'Input String',
+                    isNepali
+                        ? 'अंग्रेजी अक्षरमा टाइप गरेर प्रत्यक्ष नेपाली युनिकोड प्राप्त गर्नुहोस्।'
+                        : 'Phonetic English literal to clean Devanagari Unicode converter.',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  // Preset example buttons
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        ActionChip(
+                          avatar: const Icon(Icons.music_note, size: 16),
+                          label: Text(isNepali ? 'गान १' : 'Anthem 1'),
+                          onPressed: () => _loadExample(
+                            "sayau' thu''gaa fUlakaa haamii, euTai maalaa nepaalii",
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ActionChip(
+                          avatar: const Icon(Icons.flag, size: 16),
+                          label: Text(isNepali ? 'गान २' : 'Anthem 2'),
+                          onPressed: () => _loadExample(
+                            "saarwabhauma bhai failiekaa, mecii-mahaakaalii",
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ActionChip(
+                          avatar: const Icon(Icons.handshake, size: 16),
+                          label: Text(isNepali ? 'अभिवादन' : 'Greetings'),
+                          onPressed: () => _loadExample(
+                            "namaste, tpaaii'laaii kasto chha? swagatam!",
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  // Input text field
+                  TextField(
+                    controller: _romanizedController,
+                    maxLines: 3,
+                    onChanged: (_) => setState(() {}),
+                    decoration: InputDecoration(
+                      labelText: isNepali
+                          ? 'रोमनाइज्ड नेपाली (Romanized input)'
+                          : 'Romanized Nepali Input',
+                      hintText: "sayau' thu''gaa fUlakaa haamii...",
+                      border: const OutlineInputBorder(),
+                      suffixIcon: _romanizedController.text.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                _romanizedController.clear();
+                                setState(() {});
+                              },
+                            )
+                          : null,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  // Live conversion toggle
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      isNepali ? 'प्रत्यक्ष रूपान्तरण' : 'Live conversion',
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    subtitle: Text(
+                      isNepali
+                          ? 'टाइप गर्दागर्दै तत्काल युनिकोड बनाउने'
+                          : 'Incremental type-as-you-write conversion',
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                    value: _liveConversion,
+                    onChanged: (val) => setState(() => _liveConversion = val),
+                  ),
+                  const Divider(),
+                  const SizedBox(height: 4),
+                  // Converted Output Header with Copy Button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        isNepali
+                            ? 'नेपाली युनिकोड नतिजा'
+                            : 'Nepali Unicode Result',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      TextButton.icon(
+                        icon: const Icon(Icons.copy, size: 16),
+                        label: Text(isNepali ? 'प्रतिलिपि' : 'Copy'),
+                        onPressed: convertedOutput.isEmpty
+                            ? null
+                            : () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      isNepali
+                                          ? 'क्लिपबोर्डमा प्रतिलिपि गरियो!'
+                                          : 'Copied to clipboard!',
+                                    ),
+                                    duration: const Duration(seconds: 1),
+                                  ),
+                                );
+                              },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  // Converted Box
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: theme.colorScheme.outlineVariant,
+                      ),
+                    ),
+                    child: SelectableText(
+                      convertedOutput.isEmpty
+                          ? (isNepali
+                              ? '(कुनै इनपुट छैन)'
+                              : '(No input provided)')
+                          : convertedOutput,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: convertedOutput.isEmpty
+                            ? theme.colorScheme.outline
+                            : theme.colorScheme.onSurface,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          // 2. Nepali Digits & Detection Card
+          Card(
+            elevation: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.pin, color: theme.colorScheme.primary),
+                      const SizedBox(width: 8),
+                      Text(
+                        isNepali
+                            ? 'अंक रूपान्तरण तथा पहिचान'
+                            : 'Digits & Identification',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    isNepali ? 'पाठ प्रविष्टि (Input String)' : 'Input String',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   TextField(
-                    controller: _controller,
+                    controller: _digitController,
                     onChanged: (_) => setState(() {}),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -1960,19 +2171,19 @@ class _TextUnicodeScreenState extends State<TextUnicodeScreen> {
                   ),
                   const SizedBox(height: 16),
                   _infoRow(
-                    widget.language.isNepali
+                    isNepali
                         ? 'नेपाली अंक समावेश छ?'
                         : 'Contains Devanagari Digits?',
                     hasNepaliDigits ? 'Yes (छ)' : 'No (छैन)',
                   ),
                   _infoRow(
-                    widget.language.isNepali
+                    isNepali
                         ? 'अंग्रेजी अंकमा रूपान्तरण'
                         : 'Converted to ASCII',
                     toEnglish,
                   ),
                   _infoRow(
-                    widget.language.isNepali
+                    isNepali
                         ? 'देवनागरी अंकमा रूपान्तरण'
                         : 'Converted to Devanagari',
                     toNepali,
