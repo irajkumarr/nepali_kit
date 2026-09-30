@@ -1,6 +1,6 @@
 name: nepali_kit
-description: A comprehensive, production-quality all-in-one Nepali utilities toolkit for Dart and Flutter. Includes Bikram Sambat (BS) calendar, BS/AD conversion, Nepali numbers, currency, words, fiscal year, holidays, and Material 3 UI widgets.
-version: 1.0.0
+description: Comprehensive BS/AD calendar and Nepali localization toolkit for Dart and Flutter.
+version: 1.0.1
 homepage: https://rajkumartimalsina.me
 repository: https://github.com/irajkumarr/nepali_kit
 issue_tracker: https://github.com/irajkumarr/nepali_kit/issues
@@ -13,17 +13,17 @@ topics:
   - localization
 
 screenshots:
-  - description: 'Bikram Sambat (BS) Calendar view with full Nepali localization'
+  - description: "Bikram Sambat (BS) Calendar view with full Nepali localization"
     path: screenshots/bs-calendar.jpeg
-  - description: 'Dual BS + AD Calendar displaying both calendars simultaneously'
+  - description: "Dual BS + AD Calendar displaying both calendars simultaneously"
     path: screenshots/dual-calendar.jpeg
-  - description: 'Material 3 Bikram Sambat Date Picker dialog'
+  - description: "Material 3 Bikram Sambat Date Picker dialog"
     path: screenshots/date-picker.jpeg
-  - description: 'Bikram Sambat Date Range Picker dialog'
+  - description: "Bikram Sambat Date Range Picker dialog"
     path: screenshots/date-range-picker.jpeg
-  - description: 'Bidirectional BS ↔ AD Date Conversion'
+  - description: "Bidirectional BS ↔ AD Date Conversion"
     path: screenshots/date-conversion.jpeg
-  - description: 'Nepal Government Fiscal Year and Quarters'
+  - description: "Nepal Government Fiscal Year and Quarters"
     path: screenshots/fiscal-year.jpeg
 
 environment:

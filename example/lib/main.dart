@@ -339,7 +339,7 @@ class _ShowcaseCatalogScreenState extends State<ShowcaseCatalogScreen> {
                           Text(
                             _language.isNepali
                                 ? 'नेपाली किट प्रदर्शनी (nepali_kit_example)'
-                                : 'Nepali Kit Showcase (v1.0.0)',
+                                : 'Nepali Kit Showcase',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,

@@ -74,7 +74,7 @@ Add `nepali_kit` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  nepali_kit: ^1.0.0
+  nepali_kit: "<latest_release>"
 ```
 
 ### Pure Dart (Backend / CLI / Scripts)
@@ -577,7 +577,7 @@ nepali_kit/
 | **Gregorian (AD)**     | **1918-04-13 AD**                                      | **2043-04-13 AD** |
 
 - Verified calendar tables guarantee exact month lengths matching official Nepalese _Patro_ records across all 125 supported years.
-- Attempting to construct a `NepaliDate` outside this range throws a descriptive [`NepaliDateException`](file:///c:/Users/DELL/Desktop/opensource/nepali_kit/lib/src/core/exceptions.dart).
+- Attempting to construct a `NepaliDate` outside this range throws a descriptive `NepaliDateException`.
 
 ---
 
