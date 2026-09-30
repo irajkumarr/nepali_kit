@@ -619,6 +619,28 @@ flutter test
 flutter analyze
 ```
 
+## Release Process
+
+1. Update the version in `pubspec.yaml` (e.g. `version: 1.0.2`).
+2. Update `CHANGELOG.md` with release notes for the new version.
+3. Commit and push the changes to `main`:
+   ```bash
+   git add pubspec.yaml CHANGELOG.md
+   git commit -m "chore: bump version to 1.0.2"
+   git push origin main
+   ```
+4. Wait for the CI workflow to pass on `main`.
+5. Create and push a matching Git tag (`v` prefix followed by the exact version):
+   ```bash
+   git tag v1.0.2
+   git push origin v1.0.2
+   ```
+6. The GitHub Actions release workflow validates that the tag matches `pubspec.yaml`, executes format, analyze, test, and dry-run checks.
+7. Upon successful validation, the package is automatically published to [pub.dev](https://pub.dev/packages/nepali_kit) via GitHub OIDC.
+
+> [!NOTE]
+> The Git tag version must exactly match the version in `pubspec.yaml` (e.g., tag `v1.0.2` matches `version: 1.0.2`). Mismatched tags are rejected by the workflow.
+
 ---
 
 ## License

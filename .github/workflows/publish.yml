@@ -1,0 +1,83 @@
+name: Publish to pub.dev
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  validate:
+    name: Validate Package & Version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Verify Git tag matches pubspec.yaml version
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          TAG_VERSION="${TAG_NAME#v}"
+          PUBSPEC_VERSION=$(dart run -e '
+            import "dart:io";
+            final lines = File("pubspec.yaml").readAsLinesSync();
+            for (final line in lines) {
+              final trimmed = line.trim();
+              if (trimmed.startsWith("version:")) {
+                print(trimmed.split(":")[1].trim());
+                exit(0);
+              }
+            }
+            exit(1);
+          ')
+          echo "Git tag: $TAG_NAME (extracted version: $TAG_VERSION)"
+          echo "pubspec.yaml version: $PUBSPEC_VERSION"
+
+          if [ "$TAG_VERSION" != "$PUBSPEC_VERSION" ]; then
+            echo "::error::Tag version ($TAG_VERSION) does not match pubspec.yaml version ($PUBSPEC_VERSION)!"
+            exit 1
+          fi
+          echo "Version check passed successfully."
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify code formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Static code analysis
+        run: flutter analyze --fatal-infos --fatal-warnings
+
+      - name: Run test suite
+        run: flutter test
+
+      - name: Dry-run publish
+        run: dart pub publish --dry-run
+
+  publish:
+    name: Publish Package
+    needs: validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Publish to pub.dev via OIDC
+        run: dart pub publish --force
