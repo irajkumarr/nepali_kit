@@ -12,6 +12,20 @@ topics:
   - date-picker
   - localization
 
+screenshots:
+  - description: 'Bikram Sambat (BS) Calendar view with full Nepali localization'
+    path: screenshots/bs-calendar.jpeg
+  - description: 'Dual BS + AD Calendar displaying both calendars simultaneously'
+    path: screenshots/dual-calendar.jpeg
+  - description: 'Material 3 Bikram Sambat Date Picker dialog'
+    path: screenshots/date-picker.jpeg
+  - description: 'Bikram Sambat Date Range Picker dialog'
+    path: screenshots/date-range-picker.jpeg
+  - description: 'Bidirectional BS ↔ AD Date Conversion'
+    path: screenshots/date-conversion.jpeg
+  - description: 'Nepal Government Fiscal Year and Quarters'
+    path: screenshots/fiscal-year.jpeg
+
 environment:
   sdk: "^3.3.0"
   flutter: ">=3.19.0"

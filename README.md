@@ -14,6 +14,22 @@ A production-quality, all-in-one Nepali calendar, localization, and UI toolkit f
 
 ---
 
+## Screenshots & Visual Showcase
+
+|                               Bikram Sambat Calendar                                |                                Dual BS + AD Calendar                                 |                               Material 3 Date Picker                                |
+| :---------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: |
+| <img src="screenshots/bs-calendar.jpeg" width="250" alt="Bikram Sambat Calendar" /> | <img src="screenshots/dual-calendar.jpeg" width="250" alt="Dual BS + AD Calendar" /> | <img src="screenshots/date-picker.jpeg" width="250" alt="Material 3 Date Picker" /> |
+
+|                                  Date Range Picker                                   |                                Bidirectional Conversion                                |                                    Custom Day Rendering                                    |
+| :----------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: |
+| <img src="screenshots/date-range-picker.jpeg" width="250" alt="Date Range Picker" /> | <img src="screenshots/date-conversion.jpeg" width="250" alt="BS AD Date Conversion" /> | <img src="screenshots/custom-day-rendering.jpeg" width="250" alt="Custom Day Rendering" /> |
+
+|                                  Events & Holidays                                   |                                Fiscal Year & Quarters                                 |                                  Numbers & Unicode Utilities                                   |
+| :----------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------: |
+| <img src="screenshots/events-holidays.jpeg" width="250" alt="Events and Holidays" /> | <img src="screenshots/fiscal-year.jpeg" width="250" alt="Fiscal Year and Quarters" /> | <img src="screenshots/numbers-unicode.jpeg" width="250" alt="Numbers and Unicode Utilities" /> |
+
+---
+
 ## Why this package?
 
 In the Dart & Flutter ecosystem, building a Nepali app typically requires stitching together 4 to 6 disparate packages:
@@ -491,20 +507,21 @@ TextField(
 ```
 
 As the user types incrementally:
-* `m` → `म्`
-* `ma` → `म`
-* `maa` → `मा`
-* `maala` → `माल`
-* `maalaa` → `माला`
+
+- `m` → `म्`
+- `ma` → `म`
+- `maa` → `मा`
+- `maala` → `माल`
+- `maalaa` → `माला`
 
 ### Notation Reference
 
-* **Vowels:** `a` (अ), `A` / `aa` (आ), `i` (इ), `I` / `ii` (ई), `u` (उ), `U` / `uu` (ऊ), `e` (ए), `E` / `ai` (ऐ), `o` (ओ), `au` (औ)
-* **Special Marks:** `'` (Anusvara `ं`), `''` (Chandrabindu `ँ`), `:` (Visarga `ः`), `|` (Danda `।`), `||` (Double Danda `॥`), `om` / `Om` (`ॐ`)
-* **Consonant aspirated forms:** `kh` (ख्), `gh` (घ्), `ch` (छ्), `jh` (झ्), `th` (थ्), `dh` (ध्), `ph`/`f` (फ्), `bh` (भ्), `sh` (श्)
-* **Retroflex consonants:** `T` (ट्), `Th` (ठ्), `D` (ड्), `Dh` (ढ्), `N` (ण्), `S` (ष्)
-* **Digits:** `0-9` automatically map to `०-९`
-* **Non-Nepali Content Preservation:** URLs (`https://...`), email addresses (`user@domain.com`), and already-Devanagari Unicode characters are detected and preserved without corruption.
+- **Vowels:** `a` (अ), `A` / `aa` (आ), `i` (इ), `I` / `ii` (ई), `u` (उ), `U` / `uu` (ऊ), `e` (ए), `E` / `ai` (ऐ), `o` (ओ), `au` (औ)
+- **Special Marks:** `'` (Anusvara `ं`), `''` (Chandrabindu `ँ`), `:` (Visarga `ः`), `|` (Danda `।`), `||` (Double Danda `॥`), `om` / `Om` (`ॐ`)
+- **Consonant aspirated forms:** `kh` (ख्), `gh` (घ्), `ch` (छ्), `jh` (झ्), `th` (थ्), `dh` (ध्), `ph`/`f` (फ्), `bh` (भ्), `sh` (श्)
+- **Retroflex consonants:** `T` (ट्), `Th` (ठ्), `D` (ड्), `Dh` (ढ्), `N` (ण्), `S` (ष्)
+- **Digits:** `0-9` automatically map to `०-९`
+- **Non-Nepali Content Preservation:** URLs (`https://...`), email addresses (`user@domain.com`), and already-Devanagari Unicode characters are detected and preserved without corruption.
 
 ---
 
@@ -539,7 +556,9 @@ nepali_kit/
 │   │   ├── src/fiscal/            (NepaliFiscalYear, quarters)
 │   │   ├── src/holidays/          (Holiday models, datasets, service)
 │   │   ├── src/relative_time/     (NepaliMoment)
-│   │   └── src/events/            (CalendarEvent model)
+│   │   ├── src/events/            (CalendarEvent model)
+│   │   ├── src/text/              (NepaliUnicode transliteration engine)
+│   │   └── src/core/              (Exceptions, constants, Language enum)
 │   │
 │   └── nepali_kit.dart            <-- Unified entry point for Flutter apps
 │       └── src/flutter/           (NepaliCalendarView, pickers, dialogs, themes)

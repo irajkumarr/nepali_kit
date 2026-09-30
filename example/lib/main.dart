@@ -26,7 +26,7 @@ class _NepaliKitExampleAppState extends State<NepaliKitExampleApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Nepali Kit Showcase',
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       themeMode: _themeMode,
       theme: ThemeData(
         useMaterial3: true,
@@ -1581,19 +1581,19 @@ class _EventsScreenState extends State<EventsScreen> {
   @override
   void initState() {
     super.initState();
-    _selectedDate = NepaliDate(2082, 7, 5);
+    _selectedDate = NepaliDate(2082, 7, 4);
     _events = {
-      NepaliDate(2082, 7, 5): [
+      NepaliDate(2082, 7, 4): [
         CalendarEvent(
           id: 'event_dashain',
-          date: NepaliDate(2082, 7, 5),
+          date: NepaliDate(2082, 7, 4),
           title: 'Dashain Festival (दशैं पर्व)',
           type: CalendarEventType.personal,
           colorValue: 0xFFF44336, // Red
         ),
         CalendarEvent(
           id: 'event_tika',
-          date: NepaliDate(2082, 7, 5),
+          date: NepaliDate(2082, 7, 4),
           title: 'Family Gathering & Tika',
           type: CalendarEventType.personal,
           colorValue: 0xFF2196F3, // Blue
@@ -2038,7 +2038,7 @@ class _TextUnicodeScreenState extends State<TextUnicodeScreen> {
                       labelText: isNepali
                           ? 'रोमनाइज्ड नेपाली (Romanized input)'
                           : 'Romanized Nepali Input',
-                      hintText: "sayau' thu''gaa fUlakaa haamii...",
+                      hintText: "namaste, tapaaii'laaii kasto chha?...",
                       border: const OutlineInputBorder(),
                       suffixIcon: _romanizedController.text.isNotEmpty
                           ? IconButton(

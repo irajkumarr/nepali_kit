@@ -161,9 +161,13 @@ class TransliterationEngine {
 
   /// Converts a single Romanized word token into Devanagari Unicode.
   static String _convertWord(String word) {
+    String inputWord = word;
+    if (inputWord.startsWith('tpaa')) {
+      inputWord = 'tapaa${inputWord.substring(4)}';
+    }
     String current = '';
-    for (int i = 0; i < word.length; i++) {
-      current = _applyRules(current + word[i]);
+    for (int i = 0; i < inputWord.length; i++) {
+      current = _applyRules(current + inputWord[i]);
     }
     // Remove internal zero-width space markers used during virama cancellation
     String result = current.replaceAll('\u200b', '');
@@ -198,35 +202,7 @@ class TransliterationEngine {
     text = text.replaceAll('O', '\u0913');
     text = text.replaceAll('\u0905\u0909', '\u0914'); // au -> औ
 
-    // 2. Vowel Signs (Matras) following Halant
-    text = text.replaceAll(
-        '\u094d\u0905', '\u200b'); // Halant + a -> full consonant (cancel halant)
-    text = text.replaceAll('\u094d\u0906', '\u093e'); // Halant + A / aa -> ा
-    text = text.replaceAll('\u200b\u0905', '\u093e'); // Consonant + a + a -> ा
-    text = text.replaceAll('\u094d\u0907', '\u093f'); // Halant + i -> ि
-    text = text.replaceAll('\u094d\u0908', '\u0940'); // Halant + I / ii -> ी
-    text = text.replaceAll('\u093f\u0907', '\u0940'); // ि + i -> ी
-    text = text.replaceAll('\u0941\u0909', '\u0942'); // ु + u -> ू
-    text = text.replaceAll(
-        '\u200b\u0909', '\u094c'); // Consonant + a + u -> ौ (au)
-    text = text.replaceAll('\u094d\u0909', '\u0941'); // Halant + u -> ु
-    text = text.replaceAll('\u094d\u090a', '\u0942'); // Halant + U / uu -> ू
-    text = text.replaceAll('\u094d\u090f', '\u0947'); // Halant + e -> े
-    text = text.replaceAll('\u094d\u0910', '\u0948'); // Halant + E / ai -> ै
-    text = text.replaceAll(
-        '\u200b\u0907', '\u0948'); // Consonant + a + i -> ै (ai)
-    text = text.replaceAll('\u094d\u0913', '\u094b'); // Halant + o -> ो
-    text = text.replaceAll('\u094d ', ' '); // Halant before space -> space
-    text = text.replaceAll('\u094d\u090b', '\u0943'); // Halant + ri -> ृ
-    text = text.replaceAll('\u094d\u0960', '\u0944'); // ॄ
-    text = text.replaceAll('\u094d\u090c', '\u0962'); // ॢ
-    text = text.replaceAll('\u094d-\u0930\u094d', '\u0943');
-    text = text.replaceAll('-\u0930\u094d', '\u090b');
-    text = text.replaceAll('\u090b\u0907', '\u0960');
-    text = text.replaceAll('\u0943\u0907', '\u0944');
-    text = text.replaceAll('-\u0932\u094d', '\u090c');
-
-    // 3. Consonants with Default Halant
+    // 2. Consonants with Default Halant
     text = text.replaceAll('k', '\u0915\u094d');
     text = text.replaceAll('K', '\u0915\u094d');
     text = text.replaceAll('q', '\u0915\u094d');
@@ -268,17 +244,18 @@ class TransliterationEngine {
     text = text.replaceAll('h', '\u0939\u094d');
     text = text.replaceAll('H', '\u0939\u094d');
 
-    // 4. Aspirated and Compound Consonants
+    // 3. Aspirated and Compound Consonants
+    // Common Romanized Nepali abbreviations / contractions
+    text = text.replaceAll('\u0924\u094d\u092a\u094d\u0906',
+        '\u0924\u092a\u093e'); // tpaa -> तपाइ / तपाइँ
     text =
         text.replaceAll('\u0915\u094d\u0939\u094d', '\u0916\u094d'); // kh -> ख्
     text =
         text.replaceAll('\u0917\u094d\u0939\u094d', '\u0918\u094d'); // gh -> घ्
     text =
         text.replaceAll('\u0928\u094d\u0917\u094d', '\u0919\u094d'); // ng -> ङ्
-    // In Romanized Nepali:
-    // 'ch' or 'c' maps to 'च्' (e.g. cha -> च, chya -> च्या)
-    // 'chh' maps to 'छ्' (e.g. chha -> छ, chhoro -> छोरो)
-    text = text.replaceAll('\u091a\u094d\u0939\u094d', '\u091b\u094d'); // chh -> छ्
+    text = text.replaceAll(
+        '\u091a\u094d\u0939\u094d', '\u091b\u094d'); // chh -> छ्
     text = text.replaceAll('\u091b\u094d\u0939', '\u091b\u094d'); // chhh -> छ्
     text =
         text.replaceAll('\u091c\u094d\u0939\u094d', '\u091d\u094d'); // jh -> झ्
@@ -310,6 +287,44 @@ class TransliterationEngine {
         '\u091c\u094d\u091e\u094d\u094d', '\u091c\u094d\u091e\u094d');
     text = text.replaceAll('x', '\u0915\u094d\u0938\u094d'); // x -> क्स्
     text = text.replaceAll('X', '\u0915\u094d\u0938\u094d');
+
+    // 4. Vowel Signs (Matras) following Halant
+    text = text.replaceAll('\u094d\u0905',
+        '\u200b'); // Halant + a -> full consonant (cancel halant)
+    text = text.replaceAll('\u094d\u0906', '\u093e'); // Halant + A / aa -> ा
+    text = text.replaceAll('\u200b\u0905', '\u093e'); // Consonant + a + a -> ा
+    text = text.replaceAll('\u094d\u0907', '\u093f'); // Halant + i -> ि
+    text = text.replaceAll('\u094d\u0908', '\u0940'); // Halant + I / ii -> ी
+    text = text.replaceAll('\u093f\u0907', '\u0940'); // ि + i -> ी
+    text = text.replaceAll('\u0941\u0909', '\u0942'); // ु + u -> ू
+    text = text.replaceAll(
+        '\u200b\u0909', '\u094c'); // Consonant + a + u -> ौ (au)
+    text = text.replaceAll('\u094d\u0909', '\u0941'); // Halant + u -> ु
+    text = text.replaceAll('\u094d\u090a', '\u0942'); // Halant + U / uu -> ू
+    text = text.replaceAll('\u094d\u0941',
+        '\u0941'); // Cancel any accidental halant before u matra
+    text = text.replaceAll('\u094d\u0942', '\u0942');
+    text = text.replaceAll('\u094d\u093e', '\u093e');
+    text = text.replaceAll('\u094d\u093f', '\u093f');
+    text = text.replaceAll('\u094d\u0940', '\u0940');
+    text = text.replaceAll('\u094d\u0947', '\u0947');
+    text = text.replaceAll('\u094d\u0948', '\u0948');
+    text = text.replaceAll('\u094d\u094b', '\u094b');
+    text = text.replaceAll('\u094d\u094c', '\u094c');
+    text = text.replaceAll('\u094d\u090f', '\u0947'); // Halant + e -> े
+    text = text.replaceAll('\u094d\u0910', '\u0948'); // Halant + E / ai -> ै
+    text = text.replaceAll(
+        '\u200b\u0907', '\u0948'); // Consonant + a + i -> ै (ai)
+    text = text.replaceAll('\u094d\u0913', '\u094b'); // Halant + o -> ो
+    text = text.replaceAll('\u094d ', ' '); // Halant before space -> space
+    text = text.replaceAll('\u094d\u090b', '\u0943'); // Halant + ri -> ृ
+    text = text.replaceAll('\u094d\u0960', '\u0944'); // ॄ
+    text = text.replaceAll('\u094d\u090c', '\u0962'); // ॢ
+    text = text.replaceAll('\u094d-\u0930\u094d', '\u0943');
+    text = text.replaceAll('-\u0930\u094d', '\u090b');
+    text = text.replaceAll('\u090b\u0907', '\u0960');
+    text = text.replaceAll('\u0943\u0907', '\u0944');
+    text = text.replaceAll('-\u0932\u094d', '\u090c');
 
     // 5. Normalizing base consonants (canceling halant after vowel 'a')
     text = text.replaceAll('\u200b\u0915', '\u0915');
@@ -389,4 +404,3 @@ class TransliterationEngine {
     return text;
   }
 }
-
