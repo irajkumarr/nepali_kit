@@ -28,18 +28,7 @@ jobs:
         run: |
           TAG_NAME="${{ github.ref_name }}"
           TAG_VERSION="${TAG_NAME#v}"
-          PUBSPEC_VERSION=$(dart run -e '
-            import "dart:io";
-            final lines = File("pubspec.yaml").readAsLinesSync();
-            for (final line in lines) {
-              final trimmed = line.trim();
-              if (trimmed.startsWith("version:")) {
-                print(trimmed.split(":")[1].trim());
-                exit(0);
-              }
-            }
-            exit(1);
-          ')
+          PUBSPEC_VERSION=$(sed -n 's/^version:[[:space:]]*//p' pubspec.yaml | tr -d '\r')
           echo "Git tag: $TAG_NAME (extracted version: $TAG_VERSION)"
           echo "pubspec.yaml version: $PUBSPEC_VERSION"
 
