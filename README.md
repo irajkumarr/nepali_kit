@@ -8,6 +8,12 @@ A production-quality, all-in-one Nepali calendar, localization, and UI toolkit f
 
 ---
 
+## 🌐 Website
+
+Visit [https://nepalikit.tech](https://nepalikit.tech) for the Nepali calendar, date conversion, tithi, festivals, holidays and other Nepali utilities.
+
+---
+
 ## Package Introduction
 
 `nepali_kit` provides an enterprise-ready suite of utilities for building Nepali applications in Dart and Flutter. It provides high-speed Bikram Sambat (BS) calendar calculations, verified bidirectional BS ↔ AD date conversions, pattern-based date formatting, South Asian number & currency systems, number-to-words conversions, official fiscal year calculations, public holidays datasets, and Flutter Material 3 calendar and date picker widgets.
