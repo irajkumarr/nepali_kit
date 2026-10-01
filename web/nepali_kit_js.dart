@@ -59,7 +59,8 @@ class NepaliKitApi {
   }
 
   // Format Nepali date
-  String formatDate(int year, int month, int day, [String pattern = 'yyyy-MM-dd']) {
+  String formatDate(int year, int month, int day,
+      [String pattern = 'yyyy-MM-dd']) {
     final bsDate = NepaliDateTime(year, month, day);
     return NepaliDateFormat(pattern).format(bsDate);
   }
