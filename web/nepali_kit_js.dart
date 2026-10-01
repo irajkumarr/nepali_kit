@@ -25,7 +25,7 @@ class NepaliKitApi {
       year: bsDate.year,
       month: bsDate.month,
       day: bsDate.day,
-      formatted: NepaliDateFormat('yyyy-MM-dd').format(bsDate),
+      formatted: const NepaliDateFormat('yyyy-MM-dd').format(bsDate),
       nepaliDigits: NepaliDigits.toNepali(bsDate.year.toString()),
     );
   }
