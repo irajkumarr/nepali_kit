@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-10-03
+
+### Added
+- **Extended Calendar Range**:
+  - Expanded supported Bikram Sambat year coverage from 125 years (1975–2099 BS) to **282 years (1969–2250 BS)**.
+  - Corresponding Gregorian conversion range extended from 1918–2043 AD to **1912–2194 AD**.
+  - Integrated 282 years of verified month-day counts in `BsCalendarData`.
+  - Re-anchored conversion calculations to `1969-01-01 BS` (`1912-04-12 AD`).
+
+### Changed
+- Refined month day counts for historical years including 2062 BS to align with standard calendar data (Baisakh 31 days).
+- Updated year picker boundaries and UI components to support selection up to 2250 BS.
+
 ## [1.0.2] - 2026-10-01
 
 - Added official web platform link ([nepalikit.tech](https://nepalikit.tech)) to package homepage and README showcase.
