@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('Deterministic BS ↔ AD ↔ BS Invariant Tests', () {
-    test('Every month across all 125 supported years converts consistently',
+    test('Every month across all 282 supported years converts consistently',
         () {
       for (int year = NepaliCalendarConstants.minBsYear;
           year <= NepaliCalendarConstants.maxBsYear;
@@ -29,41 +29,50 @@ void main() {
     });
 
     test('Boundary dates convert accurately', () {
-      // First supported BS date: 1975-01-01 -> 1918-04-13
-      final (firstAdY, firstAdM, firstAdD) = BsAdConverter.bsToAd(1975, 1, 1);
-      expect(firstAdY, equals(1918));
+      // First supported BS date: 1969-01-01 -> 1912-04-12
+      final (firstAdY, firstAdM, firstAdD) = BsAdConverter.bsToAd(1969, 1, 1);
+      expect(firstAdY, equals(1912));
       expect(firstAdM, equals(4));
-      expect(firstAdD, equals(13));
+      expect(firstAdD, equals(12));
 
       final (backFirstBsY, backFirstBsM, backFirstBsD) =
-          BsAdConverter.adToBs(1918, 4, 13);
-      expect(backFirstBsY, equals(1975));
+          BsAdConverter.adToBs(1912, 4, 12);
+      expect(backFirstBsY, equals(1969));
       expect(backFirstBsM, equals(1));
       expect(backFirstBsD, equals(1));
 
-      // Last supported BS date: 2099-12-30 -> 2043-04-13
-      final lastDay = BsCalendarData.getDaysInMonth(2099, 12);
+      // Historical milestone: 1975-01-01 -> 1918-04-13
+      final (milestoneAdY, milestoneAdM, milestoneAdD) =
+          BsAdConverter.bsToAd(1975, 1, 1);
+      expect(milestoneAdY, equals(1918));
+      expect(milestoneAdM, equals(4));
+      expect(milestoneAdD, equals(13));
+
+      // Last supported BS date: 2250-12-30 -> 2194-04-21
+      final lastDay = BsCalendarData.getDaysInMonth(2250, 12);
       final (lastAdY, lastAdM, lastAdD) =
-          BsAdConverter.bsToAd(2099, 12, lastDay);
-      expect(lastAdY, equals(2043));
+          BsAdConverter.bsToAd(2250, 12, lastDay);
+      expect(lastAdY, equals(2194));
       expect(lastAdM, equals(4));
-      expect(lastAdD, equals(13));
+      expect(lastAdD, equals(21));
 
       final (backLastBsY, backLastBsM, backLastBsD) =
-          BsAdConverter.adToBs(2043, 4, 13);
-      expect(backLastBsY, equals(2099));
+          BsAdConverter.adToBs(2194, 4, 21);
+      expect(backLastBsY, equals(2250));
       expect(backLastBsM, equals(12));
       expect(backLastBsD, equals(lastDay));
     });
 
     test('AD → BS → AD round trip preserves valid dates', () {
       final adSamples = [
+        DateTime.utc(1912, 4, 12),
         DateTime.utc(1918, 4, 13),
         DateTime.utc(1950, 1, 1),
         DateTime.utc(2000, 2, 29), // Leap year in AD
         DateTime.utc(2024, 4, 13),
         DateTime.utc(2024, 9, 29),
         DateTime.utc(2043, 4, 13),
+        DateTime.utc(2194, 4, 21),
       ];
 
       for (final ad in adSamples) {
@@ -78,19 +87,19 @@ void main() {
 
     test('Out of bounds conversion throws ConversionOutOfBoundsException', () {
       expect(
-        () => BsAdConverter.bsToAd(1974, 1, 1),
+        () => BsAdConverter.bsToAd(1968, 1, 1),
         throwsA(isA<ConversionOutOfBoundsException>()),
       );
       expect(
-        () => BsAdConverter.bsToAd(2100, 1, 1),
+        () => BsAdConverter.bsToAd(2251, 1, 1),
         throwsA(isA<ConversionOutOfBoundsException>()),
       );
       expect(
-        () => BsAdConverter.adToBs(1917, 12, 31),
+        () => BsAdConverter.adToBs(1912, 4, 11),
         throwsA(isA<ConversionOutOfBoundsException>()),
       );
       expect(
-        () => BsAdConverter.adToBs(2044, 1, 1),
+        () => BsAdConverter.adToBs(2194, 4, 22),
         throwsA(isA<ConversionOutOfBoundsException>()),
       );
     });
@@ -106,8 +115,8 @@ void main() {
       expect(date.startOfMonth, equals(NepaliDate(2081, 6, 1)));
       expect(date.endOfMonth, equals(NepaliDate(2081, 6, 30)));
       expect(date.startOfYear, equals(NepaliDate(2081, 1, 1)));
-      expect(date.endOfYear, equals(NepaliDate(2081, 12, 30)));
-      expect(date.dayOfYear, equals(31 + 31 + 32 + 32 + 31 + 13));
+      expect(date.endOfYear, equals(NepaliDate(2081, 12, 31)));
+      expect(date.dayOfYear, equals(31 + 32 + 31 + 32 + 31 + 13));
       expect(date.totalDaysInMonth, equals(30));
     });
 
@@ -121,7 +130,7 @@ void main() {
       expect(prevDay, equals(endOfAshwin));
 
       // End of Chaitra 2081 to Baisakh 1, 2082
-      final endOfYear = NepaliDate(2081, 12, 30);
+      final endOfYear = NepaliDate(2081, 12, 31);
       final newYearDay = endOfYear.addDays(1);
       expect(newYearDay, equals(NepaliDate(2082, 1, 1)));
 
@@ -187,7 +196,7 @@ void main() {
 
       final yRange = date.yearRange;
       expect(yRange.startDate, equals(NepaliDate(2081, 1, 1)));
-      expect(yRange.endDate, equals(NepaliDate(2081, 12, 30)));
+      expect(yRange.endDate, equals(NepaliDate(2081, 12, 31)));
     });
   });
 
@@ -214,7 +223,7 @@ void main() {
       expect(dt.startOfYear.month, equals(1));
       expect(dt.startOfYear.day, equals(1));
       expect(dt.endOfYear.month, equals(12));
-      expect(dt.endOfYear.day, equals(30));
+      expect(dt.endOfYear.day, equals(31));
       expect(dt.nextMonth, equals(NepaliDateTime(2081, 7, 1)));
       expect(dt.previousMonth, equals(NepaliDateTime(2081, 5, 1)));
 

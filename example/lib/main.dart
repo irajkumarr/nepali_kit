@@ -204,8 +204,8 @@ class _ShowcaseCatalogScreenState extends State<ShowcaseCatalogScreen> {
       _CatalogItem(
         title: _language.isNepali ? 'वर्ष चयनकर्ता' : 'Year Picker',
         subtitle: _language.isNepali
-            ? '१९७५ देखि २०९९ सम्म वर्ष चयन'
-            : 'Standalone year selector widget (1975-2099 BS)',
+            ? '१९६९ देखि २२५० सम्म वर्ष चयन'
+            : 'Standalone year selector widget (1969-2250 BS)',
         icon: Icons.calendar_view_month,
         badge: 'Widget',
         builder: (ctx) => YearPickerScreen(language: _language),

@@ -368,14 +368,14 @@ class HolidayData {
         id: 'holi_hilly_2081',
         nameNepali: 'फागु पूर्णिमा (पहाडी)',
         nameEnglish: 'Fagu Purnima (Hilly)',
-        date: NepaliDate(2081, 11, 29),
+        date: NepaliDate(2081, 11, 28),
         category: HolidayCategory.religious,
       ),
       NepaliHoliday(
         id: 'holi_terai_2081',
         nameNepali: 'फागु पूर्णिमा (तराई)',
         nameEnglish: 'Fagu Purnima (Terai)',
-        date: NepaliDate(2081, 11, 30),
+        date: NepaliDate(2081, 11, 29),
         category: HolidayCategory.religious,
       ),
       NepaliHoliday(

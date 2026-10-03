@@ -99,7 +99,7 @@ void main() {
       final q = NepaliFiscalQuarter.fromDate(q3Date);
       expect(q.quarter, equals(FiscalQuarterIndex.q3));
       expect(q.startDate, equals(NepaliDate(2081, 10, 1)));
-      expect(q.endDate, equals(NepaliDate(2081, 12, 30)));
+      expect(q.endDate, equals(NepaliDate(2081, 12, 31)));
     });
 
     test('Q4: Baisakh 1 to Ashadh end', () {

@@ -60,7 +60,7 @@ This fragmentation leads to:
 ## Features
 
 - **Calendar Engine**: Immutable `NepaliDate` (date-only) and `NepaliDateTime` (date + time) with equality, comparisons, date ranges, and arithmetic.
-- **Date Conversion**: Verified bidirectional conversion ($\text{BS} \leftrightarrow \text{AD}$) with round-trip invariance across 1975 BS to 2099 BS.
+- **Date Conversion**: Verified bidirectional conversion ($\text{BS} \leftrightarrow \text{AD}$) with round-trip invariance across 1969 BS to 2250 BS (1912 AD to 2194 AD).
 - **Formatting & Parsing**: ICU-style format tokens (`yyyy`, `MMMM`, `dd`, `EEEE`, `hh:mm a`) supporting English and Nepali Devanagari locales, plus dual date formatting.
 - **Numbers**: South Asian comma grouping (`12,34,567.89`) and conversion between ASCII digits (`0-9`) and Devanagari numerals (`०-९`).
 - **Currency**: Currency formatting with custom or localized currency symbols (`रु 12,34,567.89` / `Rs. 12,34,567.89`).

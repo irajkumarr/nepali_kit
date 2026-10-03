@@ -3,16 +3,16 @@ class NepaliCalendarConstants {
   NepaliCalendarConstants._();
 
   /// The minimum supported Bikram Sambat year (inclusive).
-  static const int minBsYear = 1975;
+  static const int minBsYear = 1969;
 
   /// The maximum supported Bikram Sambat year (inclusive).
-  static const int maxBsYear = 2099;
+  static const int maxBsYear = 2250;
 
   /// Minimum supported Gregorian AD year corresponding to the BS range.
-  static const int minAdYear = 1918;
+  static const int minAdYear = 1912;
 
   /// Maximum supported Gregorian AD year corresponding to the BS range.
-  static const int maxAdYear = 2043;
+  static const int maxAdYear = 2194;
 
   /// Minimum supported month index (Baisakh).
   static const int minMonth = 1;

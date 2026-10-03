@@ -6,7 +6,7 @@ import 'bs_calendar_data.dart';
 class BsAdConverter {
   BsAdConverter._();
 
-  // Cached cumulative days table from anchor (BS 1970-01-01 / AD 1913-04-13)
+  // Cached cumulative days table from anchor (BS 1969-01-01 / AD 1912-04-12)
   static final List<int> _cumulativeDaysByYear = _initCumulativeDays();
 
   static List<int> _initCumulativeDays() {

@@ -132,8 +132,8 @@ void main() {
           equals(NepaliDate(2080, 12, 15))); // Chaitra 2080
 
       // Day clamping: month with 32 days added to month with 29 days
-      final endDay = NepaliDate(2081, 3, 32); // Ashadh 32
-      final addedMonth = endDay.addMonths(6); // Poush (29 days)
+      final endDay = NepaliDate(2081, 2, 32); // Jestha 32
+      final addedMonth = endDay.addMonths(7); // Poush (29 days)
       expect(addedMonth.month, equals(9));
       expect(addedMonth.day,
           lessThanOrEqualTo(BsCalendarData.getDaysInMonth(2081, 9)));
